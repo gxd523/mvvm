@@ -1,4 +1,4 @@
-package com.demo.mvvm.base;
+package com.gonzalez.mvvm.base;
 
 import android.app.Application;
 

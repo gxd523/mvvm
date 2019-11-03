@@ -4,7 +4,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.demo.mvvm.R;
-import com.demo.mvvm.base.BaseActivity;
+import com.gonzalez.mvvm.base.BaseActivity;
 import com.demo.mvvm.bean.BannerBean;
 import com.demo.mvvm.databinding.ActivityMainBinding;
 import com.demo.mvvm.glide.GlideImageLoader;

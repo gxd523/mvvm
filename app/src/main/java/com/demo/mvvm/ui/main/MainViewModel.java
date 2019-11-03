@@ -2,7 +2,7 @@ package com.demo.mvvm.ui.main;
 
 import android.app.Application;
 
-import com.demo.mvvm.base.BaseViewModel;
+import com.gonzalez.mvvm.base.BaseViewModel;
 import com.demo.mvvm.bean.BannerBean;
 import com.demo.mvvm.bean.base.ResponModel;
 import com.demo.mvvm.retrofit.RetrofitManager;
