@@ -32,6 +32,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
     // rxjava
     implementation 'io.reactivex.rxjava2:rxjava:2.2.3'
+    // 防止没有及时回收造成RxJava内存泄漏
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
     // 广告banner
     implementation 'com.youth.banner:banner:1.4.10'
     // glide
