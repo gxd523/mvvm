@@ -2,12 +2,14 @@ package com.gonzalez.mvvm.base;
 
 import android.app.Application;
 
+import com.gonzalez.mvvm.bean.Resource;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 import io.reactivex.Observer;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -21,7 +23,7 @@ public abstract class BaseViewModel<T extends BaseRepository> extends AndroidVie
      */
     public CompositeDisposable compositeDisposable;
     protected LifecycleTransformer objectLifecycleTransformer;
-    protected Callback callback;
+    protected MutableLiveData<Resource> liveData;
     private T repository;
     private ArrayList<String> onNetTags;
 
@@ -38,8 +40,8 @@ public abstract class BaseViewModel<T extends BaseRepository> extends AndroidVie
         this.objectLifecycleTransformer = objectLifecycleTransformer;
     }
 
-    public void setCallback(Callback callback) {
-        this.callback = callback;
+    public void setLiveData(MutableLiveData<Resource> liveData) {
+        this.liveData = liveData;
     }
 
     public T getRepository() {
@@ -62,12 +64,12 @@ public abstract class BaseViewModel<T extends BaseRepository> extends AndroidVie
 
         @Override
         public void onError(Throwable throwable) {
-            callback.onError(throwable);
+            liveData.postValue(Resource.error(throwable));
         }
 
         @Override
         public void onComplete() {
-            callback.onCompleted();
+            liveData.postValue(Resource.complete());
         }
     }
 }

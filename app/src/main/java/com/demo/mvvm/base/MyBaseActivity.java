@@ -7,7 +7,7 @@ import com.demo.mvvm.R;
 import com.demo.mvvm.view.CustomProgress;
 import com.gonzalez.mvvm.base.BaseActivity;
 import com.gonzalez.mvvm.base.BaseViewModel;
-import com.gonzalez.mvvm.base.Callback;
+import com.gonzalez.mvvm.bean.Resource;
 import com.gonzalez.mvvm.util.ToastUtils;
 import com.gonzalez.mvvm.util.network.NetWorkUtils;
 import com.google.gson.JsonSyntaxException;
@@ -17,17 +17,20 @@ import java.net.SocketTimeoutException;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
+import androidx.lifecycle.MutableLiveData;
 
 /**
  * Created by guoxiaodong on 2019-11-04 19:49
  */
-public abstract class MyBaseActivity<VM extends BaseViewModel, VDB extends ViewDataBinding> extends BaseActivity<VM, VDB> implements Callback {
+public abstract class MyBaseActivity<VM extends BaseViewModel, VDB extends ViewDataBinding> extends BaseActivity<VM, VDB> implements Resource.OnHandleCallback {
     private CustomProgress dialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel.setCallback(this);
+        MutableLiveData<Resource> liveData = new MutableLiveData<>();
+        liveData.observe(this, resource -> resource.handler(MyBaseActivity.this));
+        viewModel.setLiveData(liveData);
     }
 
     @Override
@@ -77,6 +80,5 @@ public abstract class MyBaseActivity<VM extends BaseViewModel, VDB extends ViewD
 
     @Override
     public void onProgress(int precent, long total) {
-
     }
 }

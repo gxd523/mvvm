@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.demo.mvvm.bean.BannerBean;
 import com.gonzalez.mvvm.base.BaseViewModel;
+import com.gonzalez.mvvm.bean.Resource;
 import com.gonzalez.mvvm.util.func.XFunc0;
 import com.gonzalez.mvvm.util.func.XFunc1;
 
@@ -46,7 +47,7 @@ public class MainViewModel extends BaseViewModel<MainRepository> {
                     public void accept(Disposable disposable) throws Exception {
                         imageUrlList.clear();
                         titleList.clear();
-                        callback.onLoading(".....");
+                        liveData.postValue(Resource.loading("loading...."));
                     }
                 })
                 .observeOn(Schedulers.newThread())

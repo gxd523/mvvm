@@ -24,6 +24,10 @@ public class Resource {
      * 注意只有下载文件和上传图片时才会有
      */
     public static final int PROGRESS = 4;
+    /**
+     * 完成
+     */
+    public static final int COMPLETE = 5;
     public int state;
 
     public String errorMsg;
@@ -32,6 +36,10 @@ public class Resource {
     //这里和文件和进度有关了
     public int precent;//文件下载百分比
     public long total;//文件总大小
+
+    public Resource(int state) {
+        this.state = state;
+    }
 
     public Resource(int state, String errorMsg) {
         this.state = state;
@@ -62,6 +70,10 @@ public class Resource {
         return new Resource(ERROR, t);
     }
 
+    public static Resource complete() {
+        return new Resource(COMPLETE);
+    }
+
     public static Resource progress(int precent, long total) {
         return new Resource(PROGRESS, precent, total);
     }
@@ -81,6 +93,9 @@ public class Resource {
                 break;
             case PROGRESS:
                 callback.onProgress(precent, total);
+                break;
+            case COMPLETE:
+                callback.onCompleted();
                 break;
         }
 
