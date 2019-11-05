@@ -3,7 +3,7 @@ package com.gonzalez.mvvm.bean;
 /**
  * 这个用来拓展LiveData
  */
-public class Resource<T> {
+public class Resource {
     /**
      * 表示加载中
      */
@@ -27,17 +27,15 @@ public class Resource<T> {
     public int state;
 
     public String errorMsg;
-    public T data;
     public Throwable error;
 
     //这里和文件和进度有关了
     public int precent;//文件下载百分比
     public long total;//文件总大小
 
-    public Resource(int state, T data, String errorMsg) {
+    public Resource(int state, String errorMsg) {
         this.state = state;
         this.errorMsg = errorMsg;
-        this.data = data;
     }
 
     public Resource(int state, Throwable error) {
@@ -52,44 +50,28 @@ public class Resource<T> {
     }
 
 
-    public static <T> Resource<T> loading(String showMsg) {
-        return new Resource<>(LOADING, null, showMsg);
+    public static Resource loading(String showMsg) {
+        return new Resource(LOADING, showMsg);
     }
 
-    public static <T> Resource<T> success(T data) {
-        return new Resource<>(SUCCESS, data, null);
+    public static Resource failure(String msg) {
+        return new Resource(ERROR, msg);
     }
 
-    public static <T> Resource<T> response(ResponModel<T> data) {
-        if (data != null) {
-            if (data.isSuccess()) {
-                return new Resource<>(SUCCESS, data.getData(), null);
-            }
-            return new Resource<>(FAIL, null, data.getErrorMsg());
-        }
-        return new Resource<>(ERROR, null, null);
+    public static Resource error(Throwable t) {
+        return new Resource(ERROR, t);
     }
 
-
-    public static <T> Resource<T> failure(String msg) {
-        return new Resource<>(ERROR, null, msg);
+    public static Resource progress(int precent, long total) {
+        return new Resource(PROGRESS, precent, total);
     }
 
-    public static <T> Resource<T> error(Throwable t) {
-        return new Resource<>(ERROR, t);
-    }
-
-    public static <T> Resource<T> progress(int precent, long total) {
-        return new Resource<>(PROGRESS, precent, total);
-    }
-
-    public void handler(OnHandleCallback<T> callback) {
+    public void handler(OnHandleCallback callback) {
         switch (state) {
             case LOADING:
                 callback.onLoading(errorMsg);
                 break;
             case SUCCESS:
-                callback.onSuccess(data);
                 break;
             case FAIL:
                 callback.onFailure(errorMsg);
@@ -107,10 +89,8 @@ public class Resource<T> {
         }
     }
 
-    public interface OnHandleCallback<T> {
+    public interface OnHandleCallback {
         void onLoading(String showMessage);
-
-        void onSuccess(T data);
 
         void onFailure(String msg);
 

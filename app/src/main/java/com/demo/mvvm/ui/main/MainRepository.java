@@ -1,20 +1,18 @@
 package com.demo.mvvm.ui.main;
 
-import com.demo.mvvm.base.MyBaseModel;
+import com.demo.mvvm.base.MyBaseRepository;
 import com.demo.mvvm.bean.BannerBean;
-import com.gonzalez.mvvm.bean.Resource;
+import com.gonzalez.mvvm.bean.ResponModel;
 
 import java.util.List;
 
-import androidx.lifecycle.MutableLiveData;
+import io.reactivex.Observable;
 
 /**
- * Created by leo
- * on 2019/10/15.
+ * 相当于Interactor
  */
-public class MainRepository extends MyBaseModel {
-    public MutableLiveData<Resource<List<BannerBean>>> getBannerList() {
-        MutableLiveData<Resource<List<BannerBean>>> liveData = new MutableLiveData<>();
-        return observeGo(getApiService().getBanner(), liveData);
+public class MainRepository extends MyBaseRepository {
+    public Observable<List<BannerBean>> getBannerList() {
+        return getApiService().getBanner().map(ResponModel::getData);
     }
 }

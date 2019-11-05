@@ -4,12 +4,12 @@ import com.demo.mvvm.interceptor.NetCacheInterceptor;
 import com.demo.mvvm.interceptor.OfflineCacheInterceptor;
 import com.demo.mvvm.retrofit.RetrofitApiService;
 import com.demo.mvvm.retrofit.RetrofitSingleton;
-import com.gonzalez.mvvm.base.BaseModel;
+import com.gonzalez.mvvm.base.BaseRepository;
 
 /**
- * Created by guoxiaodong on 2019-11-04 19:33
+ * 相当于Interactor
  */
-public class MyBaseModel extends BaseModel<RetrofitApiService> {
+public class MyBaseRepository extends BaseRepository<RetrofitApiService> {
     @Override
     public RetrofitApiService getApiService() {
         return RetrofitSingleton.getInstance().getApiService();
