@@ -5,7 +5,6 @@ import android.app.Application;
 import com.demo.mvvm.bean.BannerBean;
 import com.gonzalez.mvvm.base.BaseViewModel;
 import com.gonzalez.mvvm.bean.Resource;
-import com.gonzalez.mvvm.util.func.XFunc0;
 import com.gonzalez.mvvm.util.func.XFunc1;
 
 import java.util.ArrayList;
@@ -13,6 +12,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
+import androidx.lifecycle.MutableLiveData;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -38,7 +38,7 @@ public class MainViewModel extends BaseViewModel<MainRepository> {
         return new MainRepository();
     }
 
-    public void getBannerList(XFunc1<List<String>> imageUrlListCallback, XFunc1<List<String>> titleListCallback, XFunc0 xFunc0) {
+    public void getBannerList(XFunc1<List<String>> imageUrlListCallback, XFunc1<List<String>> titleListCallback, MutableLiveData<Object> oncomplete) {
         getRepository()
                 .getBannerList()
                 .subscribeOn(Schedulers.io())
@@ -70,7 +70,7 @@ public class MainViewModel extends BaseViewModel<MainRepository> {
                     @Override
                     public void onComplete() {
                         super.onComplete();
-                        xFunc0.call();
+                        oncomplete.postValue(new Object());
                     }
                 });
     }

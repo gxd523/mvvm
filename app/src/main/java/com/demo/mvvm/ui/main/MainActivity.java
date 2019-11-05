@@ -12,6 +12,8 @@ import com.youth.banner.BannerConfig;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.Observable;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 public class MainActivity extends MyBaseActivity<MainViewModel, ActivityMainBinding> implements View.OnClickListener {
     @Override
@@ -36,10 +38,17 @@ public class MainActivity extends MyBaseActivity<MainViewModel, ActivityMainBind
 
     @Override
     public void onClick(View view) {
+        MutableLiveData<Object> liveData = new MutableLiveData<>();
+        liveData.observe(this, new Observer<Object>() {
+            @Override
+            public void onChanged(Object o) {
+                binding.bannerView.start();
+            }
+        });
         viewModel.getBannerList(
                 imageUrlList -> binding.bannerView.setImages(imageUrlList),
                 titleList -> binding.bannerView.setBannerTitles(titleList),
-                () -> binding.bannerView.start()
+                liveData
         );
     }
 }
